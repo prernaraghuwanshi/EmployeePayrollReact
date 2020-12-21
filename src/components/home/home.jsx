@@ -10,15 +10,11 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // searchExpand: false,
       employeeArray: [],
       AllEmployeeArray: [],
     };
     this.employeeService = new EmployeeService();
   }
-  // openSearch = () => {
-  //   this.setState({ searchExpand: true });
-  // };
 
   componentDidMount() {
     this.getAllEmployee();
@@ -28,14 +24,14 @@ export default class Home extends React.Component {
     this.employeeService
       .getAllEmployee()
       .then((data) => {
-        console.log("data after get ", data.data);
+        console.log("Data on GET ", data.data);
         this.setState({
           employeeArray: data.data,
           AllEmployeeArray: data.data,
         });
       })
       .catch((err) => {
-        console.log("err after ", err);
+        console.log("Error ", err);
       });
   };
 

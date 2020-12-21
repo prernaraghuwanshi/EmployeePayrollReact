@@ -17,7 +17,6 @@ const PayrollForm = (props) => {
       { url: "../../assets/profile-images/Ellipse -3.png" },
       { url: "../../assets/profile-images/Ellipse -4.png" },
     ],
-    // allDepartment: ["HR", "Sales", "Finance", "Engineer", "Others"],
     departmentValue: "",
     gender: "",
     salary: "",
@@ -34,7 +33,7 @@ const PayrollForm = (props) => {
       name: "",
       gender: "",
       salary: "",
-      profileUrl: "",
+      imagePath: "",
       startDate: "",
     },
   };
@@ -52,22 +51,29 @@ const PayrollForm = (props) => {
     employeeService
       .getEmployee(id)
       .then((res) => {
-        console.log("data is ", res.data);
+        console.log("Data is ", res.data);
         let obj = res.data;
         setData(obj);
       })
       .catch((err) => {
-        console.log("err is ", err);
+        console.log("Error ", err);
       });
   };
 
   const setData = (obj) => {
+    let dateRecieved =obj.startDate.split("-");
+    //console.log(dateRecieved);
     setForm({
       ...formValue,
       ...obj,
+      departmentValue: obj.department,
+      day:dateRecieved[2].split(" ")[0],
+      month:dateRecieved[1],
+      year:dateRecieved[0],
       isUpdate: true,
     });
     console.log(obj);
+    
   };
 
   const changeValue = (event) => {
@@ -96,7 +102,7 @@ const PayrollForm = (props) => {
       employeeService
         .updateEmployee(params.id,object)
         .then((res) => {
-          console.log("data after update", res);
+          console.log("Data after update", res);
           alert(res.data.message);
           props.history.push("");
         })
@@ -107,12 +113,12 @@ const PayrollForm = (props) => {
       employeeService
         .addEmployee(object)
         .then((res) => {
-          console.log("data added");
+          console.log("Data Added");
           alert(res.data.message);
           props.history.push("");
         })
         .catch((err) => {
-          console.log("err while Add");
+          console.log("Error while adding Employee");
         });
     }
   };
